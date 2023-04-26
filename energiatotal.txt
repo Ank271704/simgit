@@ -1,0 +1,31 @@
+Python 3.7.9 (tags/v3.7.9:13c94747c7, Aug 17 2020, 18:58:18) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license()" for more information.
+>>> def Energiatotal(radiorin, alturaneumatico,pesorin, pesoneumatico, pesoauto,velocidadini, velocidadfin, nollantas,gravedad,masaveh,distancia,sen,arctan,pendiente,vel,coeficienterodadura,densidadaire,supfrontveh,coefarrastre):
+	velinims=(velocidadini*1000)/3600
+	velfinms=(velocidadfin*1000)/3600
+	velms=(vel*1000)/3600
+	energiacinetica=(1/2)*pesoauto*(velfinms*velfinms-velinims*velinims);
+	pesorueda=pesorin+pesoneumatico;
+	radio=(radiorin+alturaneumatico)/1000;
+	velangularini= velinims/radio;
+	velangularfin=velfinms/radio;
+	momentoinercia= (1/2)+pesorueda*radio*radio;
+	energiarot=(1/2)*momentoinercia*(velangularfin*velangularfin-velangularini*velangularini)*nollantas;
+	energiapen=masaveh*gravedad*distancia*sin(arctan(pendiente));
+	potencia=masaveh*gravedad*velms*sen*(arctan*(pendiente));
+	fuerza=masaveh*gravedad*sen*(arctan*(pendiente));
+	fzaresrod= coeficienterodadura*pesoauto;
+	energiarodadura=fzaresrod*distancia;
+	fzaarrastre=(1/2*densidadaire*supfrontveh*coefarrastre*(velms*velms))/1000;
+	potarrastre=1/2*densidadaire*supfrontveh*coefarrastre*(velms*velms*velms);
+	energiaaerodinamica=1/2*densidadaire*supfrontveh*coefarrastre*(velms*velms)*distancia;
+	energiatotal=energiacinetica+energiarot+energiapen+energiarodadura+energiaaerodinamica;
+	if (velocidadfin>velocidadini):
+		return energiatotal;
+	else:
+		return 0;
+for x in :
+print (Energiainst (x[],x[]));
+Energiatotal=0;
+for x in :
+Energiatotal=Energiatotal+Energiainst (x[],x[]);
