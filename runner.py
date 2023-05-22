@@ -38,17 +38,17 @@ import traci
 import math
 import random
 
-#numero de estaciones por manzana
+#number of stops per block
 lengthbetweenstations=40
-#longitud de las estaciones
+#stops lenght
 lengthstations=30
-#numero de habitantes que se van a transportar
+#number of transported passengers
 habitantestrans = 1000
-#parametro de la distribucion de Poisson
+#Poisson distribution parameter
 lamb = 1
-#capacidad de los buses
+#buses capacity
 personcapacitystation=100
-#duracion de las paradas
+#stop duration
 duration=50
 
 
@@ -127,14 +127,14 @@ def createroutesbusstops():
     
 def run():
     step = 0
-    #elegimos una semilla aleatoria
+    #chosse random seed
     random.seed()
 
-    #iniciamos el archivo de resultados
+    #results file initialization
     res = open ('./resultados.csv','w')
     res.write('tiempo, bus, velfin, pasajeros'+'\n')
     
-    #metemos a una lista lanes que tienen permitidos peatones
+    #list of lanes that allow pedestrians
     arreglolanes=traci.lane.getIDList()
     
     arreglolanespeat=[]
@@ -142,10 +142,10 @@ def run():
         if ("pedestrian" in traci.lane.getAllowed(x))==True:
             arreglolanespeat.append(x)
     #print(arreglolanespeat)        
-    #metemos a una lista todas las paradas de autobus
+    #list of bus stops
     busstops = traci.busstop.getIDList()
 
-    #las lineas, sus edges y su terminal
+    #lines, edges and its terminal
     dictstatterm={}
     dictstatedg={}
     pa = open ('./data/paradas.rou.xml','r')
@@ -159,24 +159,24 @@ def run():
                 dictstatedg[norbus]=edges
     paso=1
     while traci.simulation.getMinExpectedNumber() > 0:
-        #pasajeros que salen de su ubicacion a tomar un autobus
+        #passengers leaving location to take the bus
         st=step%300
         if st==0:
             pasajeros=int(habitantestrans*distpoisson(1, paso))
             #print(pasajeros)
-            #para cada pasajero elegimos una ubicacion aleatoria y una parada aleatoria
+            #for each passenger a random location stop is chosen
             i=0
             while (i<pasajeros):
                 lanesel=random.choice(arreglolanespeat)
                 longlane=traci.lane.getLength(lanesel)
                 edgesel=traci.lane.getEdgeID(lanesel)
                 possel=longlane*random.random()
-                #seleccionames una parada a donde ir y su posicion
+                #stop and position of stops to go is selected
                 busstopsel=random.choice(busstops)
                 posicionbusstop=traci.busstop.getEndPos(busstopsel)
                 lanebusstopsel=traci.busstop.getLaneID(busstopsel)
                 edgebusstopsel=traci.lane.getEdgeID(lanebusstopsel)
-                #se crea el peaton y se hace caminar al peaton a la parada
+                #pedestrian creation and walking to stop command
                 edgeswalk=[]
                 edgeswalk.append(edgesel)
                 edgeswalk.append(edgebusstopsel)
